@@ -1,0 +1,6 @@
+{
+  "appId": "com.charlys.mitienda",
+  "appName": "Mi Tienda",
+  "webDir": "www",
+  "bundledWebRuntime": false
+}

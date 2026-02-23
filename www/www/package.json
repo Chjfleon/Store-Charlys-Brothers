@@ -1,0 +1,22 @@
+{
+  "name": "charlys-static-server",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "build:web": "rm -rf www && mkdir -p www && cp -r . www || true",
+    "cap:init": "npx @capacitor/cli init MiTienda com.charlys.mitienda --web-dir=www",
+    "cap:add:android": "npx cap add android",
+    "cap:sync": "npx cap sync",
+    "cap:open:android": "npx cap open android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.1.0",
+    "compression": "^1.7.4",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.1.0",
+    "@capacitor/core": "^8.1.0"
+  }
+}
