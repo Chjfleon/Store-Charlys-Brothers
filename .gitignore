@@ -3,4 +3,4 @@ node_modules/
 *.log
 lighthouse-report.json
 lighthouse-report-final.json
-.github/
+
