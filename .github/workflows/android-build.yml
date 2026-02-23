@@ -28,7 +28,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Accept Android SDK licenses & install required packages
+      - name: Accept Android SDK licenses
         run: |
           yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
           $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager \
@@ -39,25 +39,29 @@ jobs:
       - name: Install Node dependencies
         run: npm ci
 
-      - name: Prepare www (web assets for Capacitor)
+      - name: Prepare www folder
         run: |
           rm -rf www
           mkdir -p www
           cp index.html manifest.json sw.js offline.html www/ 2>/dev/null || true
-          cp -r icons www/ 2>/dev/null || true
+          cp icon*.png www/ 2>/dev/null || true
 
-      - name: Add / sync Capacitor Android platform
-        run: |
-          npx cap add android || true
-          npx cap sync android
+      - name: Add Capacitor Android platform
+        run: npx cap add android || true
 
-      - name: Build Android APK (Gradle)
+      - name: Sync Capacitor
+        run: npx cap sync android
+
+      - name: Set sdk.dir in local.properties
+        run: echo "sdk.dir=$ANDROID_HOME" > android/local.properties
+
+      - name: Build Android APK
         working-directory: android
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon --stacktrace
+          ./gradlew assembleDebug --no-daemon
 
-      - name: Upload APK artifact
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-debug-apk
